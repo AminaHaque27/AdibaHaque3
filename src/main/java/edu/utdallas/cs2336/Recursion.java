@@ -1,10 +1,17 @@
 package edu.utdallas.cs2336;
 
+
 import java.util.Iterator;
+
+
+import edu.utdallas.cs2336.FileSystemElement.Type;
+
 
 public class Recursion {
 
+
     private static final int[] PRIMES = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97};
+
 
     public static String primeFactorization(int number) {
         // TODO: use PRIMES above to find the smallest divisor.
@@ -29,8 +36,41 @@ public class Recursion {
         return Integer.toString(number);
     }
 
+
     private static void printContents(FileSystemElement element, StringBuilder stringBuilder, String prepend) {
-        // TODO: Your job is to print a "file list", with each directory
+     
+
+
+        if(element.getType() == Type.FILE){
+            stringBuilder.append(prepend).append(element.getName()).append("\n");
+
+
+        }
+
+
+        else if(element.getType() == Type.DIRECTORY){
+            stringBuilder.append(prepend).append(element.getName()).append("\n");
+           
+        }
+
+
+        Iterator<FileSystemElement> iterator = element.getContentsList().iterator();
+        while(iterator.hasNext()){
+            FileSystemElement newbie = iterator.next();
+            printContents(newbie, stringBuilder, prepend + "   ");
+        }
+    }
+
+
+    public static String printContents(FileSystemElement element) {
+        StringBuilder builder = new StringBuilder();
+        printContents(element, builder, "");
+        return builder.toString();
+    }
+}
+
+
+   // TODO: Your job is to print a "file list", with each directory
         //  you find causing it to be indented 3 spaces.
         //  ...
         //  Use element.getType() to tell file vs. directory
@@ -48,11 +88,4 @@ public class Recursion {
         //  ...
         //  The final file/directory will have a \n at the end
         //  (that is, you don't need to detect the final entry)
-    }
 
-    public static String printContents(FileSystemElement element) {
-        StringBuilder builder = new StringBuilder();
-        printContents(element, builder, "");
-        return builder.toString();
-    }
-}
